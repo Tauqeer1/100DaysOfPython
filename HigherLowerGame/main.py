@@ -22,7 +22,7 @@ def game():
     is_game_end = False
     option_a = get_random_option()
     option_b = get_random_option()
-    
+
     while is_game_end != True:
         
         while option_a == option_b:
