@@ -44,7 +44,7 @@ def calculate_inserted_amount(quarters_count, dimes_count, nickels_count, pennie
 def check_sufficient_resources(type_of_coffee):
     ingredients = MENU[type_of_coffee]["ingredients"]
     for item in ingredients:
-        if ingredients[item] >= resources[item]:
+        if ingredients[item] > resources[item]:
             print(f"Sorry there is not enough {item}")
             return False
     return True
@@ -98,7 +98,7 @@ while is_machine_on is True:
                 update_revenue(coffee_type)
                 update_resources(coffee_type)
                 print(f"Here is your ${amount_remaining} in change.")
-                print(f"Here is your {coffee_type}. Enjoy!")
+                print(f"Here is your {coffee_type} ☕️. Enjoy!")
     else:
         print("Please enter a valid coffee type (espresso/latte/cappuccino).")
 
