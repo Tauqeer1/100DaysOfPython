@@ -10,69 +10,28 @@
 
 from turtle import Turtle, Screen
 import time
+from snake import Snake
+
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.bgcolor("black")
 screen.title("Snake Game")
 screen.tracer(0)
 
-class Snake:
-    def __init__(self):
-        pass
-
-def create_snake():
-    x = 0
-    y = 0
-    snake_list_segments = []
-    for _ in range(3):
-        snake_segment = Turtle(shape="square")
-        snake_segment.color("white")
-        snake_segment.teleport(x, y)
-        snake_segment.penup()
-        snake_segment.speed(0)
-        snake_list_segments.append(snake_segment)
-
-        x = x - 20
-    return snake_list_segments
-
-snake_list = create_snake()
-
-def move_up():
-    snake_list[0].setheading(90)
-
-def move_down():
-    snake_list[0].setheading(270)
-
-def move_left():
-    snake_list[0].setheading(90)
-
-def move_right():
-    snake_list[0].setheading(180)
+snake = Snake()
 
 screen.listen()
-screen.onkey(fun=move_up, key="Up")
-screen.onkey(fun=move_down, key="Down")
-screen.onkey(fun=move_left, key="Left")
-screen.onkey(fun=move_right, key="Right")
+screen.onkey(fun=snake.move_up, key="Up")
+screen.onkey(fun=snake.move_down, key="Down")
+screen.onkey(fun=snake.move_left, key="Left")
+screen.onkey(fun=snake.move_right, key="Right")
 
 game_is_on = True
 while game_is_on:
     screen.update()
     time.sleep(0.1)
 
-    # Store previous position of snake list
-    prev_positions = []
-    for snake in snake_list:
-        prev_positions.append(snake.position())
-
-    # Move head
-    snake_list[0].forward(20)
-
-
-    # Move body
-    for i in range(1, len(snake_list)):
-        prev_position = prev_positions[i - 1]
-        snake_list[i].goto(prev_position)
+    snake.move()
 
 
 
