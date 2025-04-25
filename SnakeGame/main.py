@@ -68,6 +68,7 @@ while game_is_on:
     # Move head
     snake_list[0].forward(20)
 
+
     # Move body
     for i in range(1, len(snake_list)):
         prev_position = prev_positions[i - 1]
