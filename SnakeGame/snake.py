@@ -17,12 +17,23 @@ class Snake:
         for _ in range(3):
             snake_segment = Turtle(shape="square")
             snake_segment.color("white")
+            # snake_segment.shapesize(0.5, 0.5)
             snake_segment.teleport(t[0], t[1])
             snake_segment.penup()
-            snake_segment.speed(0)
+            snake_segment.speed("fastest")
             self.snake_list.append(snake_segment)
             # x = x - 20
             t = (t[0] - 20, t[1])
+
+    def append_snake(self):
+        snake_segment = Turtle(shape="square")
+        snake_segment.color("white")
+        snake_length = len(self.snake_list)
+        snake_segment.teleport(self.snake_list[snake_length-1].xcor(), self.snake_list[snake_length-1].ycor() )
+
+        snake_segment.penup()
+        snake_segment.speed("fastest")
+        self.snake_list.append(snake_segment)
 
     def move(self):
         # Store previous position of snake list
