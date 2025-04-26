@@ -11,29 +11,25 @@ class Snake:
         self.head = self.snake_list[0]
 
     def create_snake(self):
-        # x = 0
-        # y = 0
         t = (0, 0)
         for _ in range(3):
-            snake_segment = Turtle(shape="square")
-            snake_segment.color("white")
-            # snake_segment.shapesize(0.5, 0.5)
-            snake_segment.teleport(t[0], t[1])
-            snake_segment.penup()
-            snake_segment.speed("fastest")
-            self.snake_list.append(snake_segment)
-            # x = x - 20
+            self.add_segment(t)
             t = (t[0] - 20, t[1])
 
     def append_snake(self):
+        snake_length = len(self.snake_list)
+        position = self.snake_list[snake_length - 1].position()
+        # position = (self.snake_list[snake_length - 1].xcor(), self.snake_list[snake_length - 1].ycor())
+        self.add_segment(position)
+
+    def add_segment(self, position):
         snake_segment = Turtle(shape="square")
         snake_segment.color("white")
-        snake_length = len(self.snake_list)
-        snake_segment.teleport(self.snake_list[snake_length-1].xcor(), self.snake_list[snake_length-1].ycor() )
-
+        snake_segment.teleport(position[0], position[1])
         snake_segment.penup()
         snake_segment.speed("fastest")
         self.snake_list.append(snake_segment)
+
 
     def move(self):
         # Store previous position of snake list
@@ -68,3 +64,9 @@ class Snake:
         curr_direction = self.head.heading()
         if curr_direction != LEFT:
             self.head.setheading(RIGHT)
+
+    def set_snake_x_cor(self, x_coordinate):
+        self.head.setx(x_coordinate)
+
+    def set_snake_y_cor(self, y_coordinate):
+        self.head.sety(y_coordinate)

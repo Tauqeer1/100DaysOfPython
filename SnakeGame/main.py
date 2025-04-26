@@ -13,7 +13,10 @@ import time
 from snake import Snake
 from food import Food
 from scoreboard import ScoreBoard
-
+LEFT_WALL = -285
+RIGHT_WALL = 285
+UP_WALL = 285
+DOWN_WALL = -285
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.bgcolor("black")
@@ -22,7 +25,7 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
-score = ScoreBoard()
+score_board = ScoreBoard()
 screen.listen()
 screen.onkey(fun=snake.move_up, key="Up")
 screen.onkey(fun=snake.move_down, key="Down")
@@ -40,8 +43,28 @@ while game_is_on:
     if distance < 15:
         food.create_random_food()
         snake.append_snake()
-        score.increase_score()
+        score_board.increase_score()
 
+    #  Detect collision with walls (Condition working)
+    # if snake.head.xcor() > RIGHT_WALL or snake.head.xcor() < LEFT_WALL or snake.head.ycor() > UP_WALL or snake.head.ycor() < DOWN_WALL:
+    #     game_is_on = False
+    #     score_board.game_over()
+
+    # Snake Wall direction
+    if snake.head.xcor() > RIGHT_WALL:
+        snake.set_snake_x_cor(LEFT_WALL)
+    elif snake.head.xcor() < LEFT_WALL:
+        snake.set_snake_x_cor(RIGHT_WALL)
+    elif snake.head.ycor() > UP_WALL:
+        snake.set_snake_y_cor(DOWN_WALL)
+    elif snake.head.ycor() < DOWN_WALL:
+        snake.set_snake_y_cor(UP_WALL)
+
+    # Detect collision with tail
+    for i in range(1, len(snake.snake_list)):
+        if snake.head.distance(snake.snake_list[i]) < 5:
+            game_is_on = False
+            score_board.game_over()
 
 # Code Version 1
 # game_is_on = True
