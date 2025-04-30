@@ -70,3 +70,10 @@ class Snake:
 
     def set_snake_y_cor(self, y_coordinate):
         self.head.sety(y_coordinate)
+
+    def reset_snake(self):
+        for segment in self.snake_list:
+            segment.goto(1000, 1000)
+        self.snake_list.clear()
+        self.create_snake()
+        self.head = self.snake_list[0]
