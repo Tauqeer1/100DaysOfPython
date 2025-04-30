@@ -19,6 +19,9 @@ while game_is_on:
     car_manager.create_car()
     car_manager.move_car()
 
+    # Player hits the finishing line
+    if player.is_touch_finish_line():
+        player.reset_player_position()
 
     screen.update()
 
