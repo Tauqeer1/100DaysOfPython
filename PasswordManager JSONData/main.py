@@ -32,10 +32,6 @@ def generate_password():
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
-def write_to_file(filename, text):
-    with open(filename, 'a') as text_file:
-        text_file.write(text)
-
 def write_to_json(filename, data_dict):
     try:
         with open(filename, 'r') as data_json_file:
@@ -60,9 +56,6 @@ def save_data():
     if len(website_value) == 0 or len(email_value) == 0 or len(password_value) == 0:
         messagebox.showerror(title="Error", message="Please make sure you haven't left any fields empty!")
     else:
-        # text_to_write = f"{website_value} | {email_value} | {password_value}\n"
-        # write_to_file("data.txt", text_to_write)
-        # messagebox.showinfo("Success", "Data saved!")
         data_dict = {
             website_value: {
                 "email": email_value,
@@ -70,11 +63,29 @@ def save_data():
             }
         }
         write_to_json('data.json', data_dict)
+        messagebox.showinfo("Success", "Data saved!")
         clear_form()
 
 def clear_form():
     website_input.delete(0, END)
     password_input.delete(0, END)
+
+# ---------------------------- FIND PASSWORD ------------------------------- #
+def find_password():
+    website_value = website_input.get()
+    try:
+        with open('data.json', 'r') as data_json_file:
+            data = json.load(data_json_file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="No Data File found!")
+    else:
+        try:
+            find_obj = data[website_value]
+        except KeyError:
+            messagebox.showerror(title="Error", message=f"No details for the {website_value} exists!")
+        else:
+            messagebox.showinfo(title=website_value,
+                                message=f"Email: {find_obj['email']} \n Password: {find_obj['password']}")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -91,9 +102,12 @@ canvas.grid(row=0, column=1)
 website_label = Label(text="Website:", bg=WHITE, fg=BLACK, pady=5)
 website_label.grid(row=1, column=0)
 
-website_input = Entry(width=35, bg=WHITE, fg=BLACK, relief="flat", highlightcolor=GRAY, highlightthickness=1, insertbackground=BLACK)
+website_input = Entry(width=21, bg=WHITE, fg=BLACK, relief="flat", highlightcolor=GRAY, highlightthickness=1, insertbackground=BLACK)
 website_input.focus()
-website_input.grid(row=1, column=1, columnspan=2)
+website_input.grid(row=1, column=1, columnspan=1)
+
+search_button = Button(text="Search", highlightbackground=WHITE, width=11, relief="raised", command=find_password)
+search_button.grid(row=1, column=2)
 
 
 email_label = Label(text="Email/Username:", bg=WHITE, fg=BLACK, pady=5)
