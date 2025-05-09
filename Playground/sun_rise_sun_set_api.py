@@ -1,6 +1,13 @@
 import requests
 
-response =  requests.get("https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400")
+MY_LAT = 24.860735
+MY_LNG = 67.001137
+
+parameters = {
+    'lat': MY_LAT,
+    'lng': MY_LNG
+}
+response =  requests.get("https://api.sunrise-sunset.org/json", params=parameters)
 response.raise_for_status()
 
 data = response.json()
