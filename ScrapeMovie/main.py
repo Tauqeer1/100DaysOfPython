@@ -21,7 +21,9 @@ title_text = [title.find('h2').find('strong').get_text()
 title_text.reverse()
 print(title_text)
 
-
+print("\n".join(title_text))
+with open("movies.txt", "w") as file:
+    file.write("\n".join(title_text))
 
 
 
