@@ -37,9 +37,12 @@ exercises = [
 
 SHEETY_API_ENDPOINT = "https://api.sheety.co/a470ba0cb29fd6bd4fab11fc3955d7aa/workoutsTracking/workouts"
 
+SHEETY_TOKEN = "GoGKY2Pxzxebc7L1CstLUorlIz5oWiOp5qYUERvH0z4BFLzGE7cX7GxAzcOiczVr"
+
+sheety_req_headers = {'Authorization': f"Bearer {SHEETY_TOKEN}"}
 
 for exercise in exercises:
-    sheety_req = requests.post(SHEETY_API_ENDPOINT, json=exercise)
+    sheety_req = requests.post(SHEETY_API_ENDPOINT, json=exercise, headers=sheety_req_headers)
     sheety_req.raise_for_status()
     sheety_res = sheety_req.json()
     print(sheety_res)
