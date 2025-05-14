@@ -18,7 +18,8 @@ title_text = [title.find('h2').find('strong').get_text()
               for title in movie_title
               if title.find('h2') and title.find('h2').find('strong')]
 
-
+title_text.reverse()
+print(title_text)
 
 
 
