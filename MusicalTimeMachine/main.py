@@ -1,7 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 
 BILLBOARD_BASE_URL = "https://www.billboard.com/charts/hot-100"
+SPOTIFY_CLIENT_ID = "cc2e23f16916454db2b6763b6bb64b42"
+SPOTIFY_CLIENT_SECRET = "6048ca3e35984b069dfb0e08d621b47f"
+SPOTIFY_REDIRECT_URI = "https://example.com/callback"
 
 # user_input_date = input("Which year do you want to travel to? Type the date in this format: YYYY-MM-DD: ")
 
@@ -19,4 +24,16 @@ soup = BeautifulSoup(billboard_html_content, "html.parser")
 h3_tags = soup.find_all("h3", id="title-of-a-story", class_="a-no-trucate")
 
 song_title = [h3_tag.get_text().strip() for h3_tag in h3_tags]
-print(song_title)
+# print(song_title)
+
+scope = "user-library-read"
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
+                                               client_secret=SPOTIFY_CLIENT_SECRET,
+                                               scope=scope,
+                                               redirect_uri=SPOTIFY_REDIRECT_URI))
+# user_id = "31yocpmn246xrkm4ovrbpdt54qcu"
+
+user_id = sp.current_user()['id']
+
+print(user_id)
+
