@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from pprint import pprint
 
 BILLBOARD_BASE_URL = "https://www.billboard.com/charts/hot-100"
 SPOTIFY_CLIENT_ID = "cc2e23f16916454db2b6763b6bb64b42"
@@ -34,16 +35,27 @@ SPOTIFY_SCOPES = ' '.join(list_of_scope)
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
                                                client_secret=SPOTIFY_CLIENT_SECRET,
                                                scope=SPOTIFY_SCOPES,
-                                               redirect_uri=SPOTIFY_REDIRECT_URI))
+                                             redirect_uri=SPOTIFY_REDIRECT_URI))
 
+user_input_date = "1992-12-22"
+year = user_input_date.split("-")[0]
 
-user_id = sp.current_user()['id']
+# user_id = sp.current_user()['id']
+# playlist = sp.user_playlist_create(user=user_id,
+#                                    # name=f"{user_input_date} Billboard 100",
+#                                    name="Test1",
+#                                    public=True,
+#                                    collaborative=False)
+#
+# playlist_id = playlist['id']
 
-print(user_id)
-
-playlist = sp.user_playlist_create(user=user_id,
-                                   name="My Playlist",
-                                   public=True,
-                                   collaborative=False)
-
-print(playlist)
+song_uris = []
+for title in song_title:
+    searched_result = sp.search(q=f"track: {title} year: {year}", type="track", market=None, limit=1)
+    searched_metadata = searched_result['tracks']['items'][0]
+    song_uris.append(searched_metadata["uri"])
+    # data = {
+    #     'external_url': searched_metadata['external_urls']['spotify'],
+    #     'uri': searched_metadata['uri']
+    # }
+print(song_uris)
