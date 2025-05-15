@@ -25,15 +25,25 @@ h3_tags = soup.find_all("h3", id="title-of-a-story", class_="a-no-trucate")
 
 song_title = [h3_tag.get_text().strip() for h3_tag in h3_tags]
 # print(song_title)
+list_of_scope = ['user-read-email','user-follow-read', 'playlist-read-private',
+                 'playlist-read-collaborative', 'playlist-modify-private',
+                 'playlist-modify-public']
+SPOTIFY_SCOPES = ' '.join(list_of_scope)
 
-scope = "user-library-read"
+
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID,
                                                client_secret=SPOTIFY_CLIENT_SECRET,
-                                               scope=scope,
+                                               scope=SPOTIFY_SCOPES,
                                                redirect_uri=SPOTIFY_REDIRECT_URI))
-# user_id = "31yocpmn246xrkm4ovrbpdt54qcu"
+
 
 user_id = sp.current_user()['id']
 
 print(user_id)
 
+playlist = sp.user_playlist_create(user=user_id,
+                                   name="My Playlist",
+                                   public=True,
+                                   collaborative=False)
+
+print(playlist)
